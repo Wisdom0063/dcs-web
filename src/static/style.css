@@ -59,3 +59,7 @@
     transition: all 0.3s;
   }
 
+  button:focus, input:focus {outline:1; outline-color: rgb(9, 187, 161); border: none;}
+  button:hover {cursor: pointer;}
+
+
