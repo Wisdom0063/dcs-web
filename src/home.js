@@ -164,9 +164,9 @@ function Home() {
                     color: "#ffffff",
                     
                   }}
-                  text="Start"
+                  text="START"
                   onClick={handleStartTimer}
-                  disabled={countDownInProgress}
+                  disabled={countDownInProgress || !providedMinute}
                 />
               </div>
             </div>
@@ -179,19 +179,19 @@ function Home() {
             <TimerAlert
               isMoreHalf={isMoreHalf}
               isTimeUp={isTimeUp}
-              is10below={is10Below}
             />
           </div>
 
           <div className="d-flex justify-content-center align-items-center">
             <div style={{ marginRight: "15px" }}>
-              <Timer minute={minute} seconds={seconds} />
+              <Timer minute={minute} seconds={seconds} is10below={is10Below}
+              is20Below={is20Below}/>
             </div>
             <div style={{ marginTop: "25px" }}>
               {countDownInProgress && (
                 <PlayPauseControl
                   isPlaying={isPlaying}
-                  onClick={() => handlePlayPause()}
+                  onClick={handlePlayPause}
                 />
               )}
             </div>
