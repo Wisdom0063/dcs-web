@@ -9,6 +9,8 @@ import {
   PlayPauseControl,
 } from "./components";
 
+import {getTimeLeft} from "./lib"
+
 function Home() {
   const controlvalues = [1, 1.5, 2];
   const [providedMinute, setProvidedMinute] = useState(null);
@@ -25,37 +27,40 @@ function Home() {
   const [is10Below, setIs10below] = useState(false);
   const [countDownEnd, setCountDownEnd] = useState();
 
+
+  function stopTimer(){
+    setCountDownInProgress(false);
+    clearInterval(x);
+    setPausedAt(null)
+     setIsPlaying(false)
+    setTimeUp(true);
+    setIs20below(false);
+    setIs10below(false);
+    setMinute(0)
+    setSeconds(0)
+  }
+
   function handleTimer() {
     var x = setInterval(() => {
       var now = new Date().getTime();
 
       // Find the distance between now and the count down date
-      var distance1 = countDownEnd - now;
-      var distance = distance1 * speed;
-      console.log(distance);
+      let actualDistance1 = countDownEnd - now;
+      let distance = actualDistance1 * speed;
+      //Stop timer if distance is less than zero
       if (distance <= 0) {
-        setCountDownInProgress(false);
-        clearInterval(x);
-        setPausedAt(null)
-         setIsPlaying(false)
-        setTimeUp(true);
-        setIs20below(false);
-        setIs10below(false);
-        setMinute(0)
-        setSeconds(0)
+        stopTimer()
+
       } else {
-        var hoursLeft = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        var minutesLeft = Math.floor(
-          (distance % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        var secondsLeft = Math.floor((distance % (1000 * 60)) / 1000);
+          // Get hours, minute and seconds from now to when countdown ends
+        let {hoursLeft, minutesLeft, secondsLeft } = getTimeLeft(distance)
         setMinute(hoursLeft * 60 + minutesLeft);
         setSeconds(secondsLeft);
 
-        let minL = hoursLeft * 60 + minutesLeft;
-        let totalScondsLeft = minL * 60 + secondsLeft;
+
+        //Calculate total seconds left
+        let totalMinuteLeft = hoursLeft * 60 + minutesLeft;
+        let totalScondsLeft = totalMinuteLeft * 60 + secondsLeft;
         let providedMinuteInSeconds = providedMinute * 60
         if (totalScondsLeft < providedMinuteInSeconds / 2) {
           setIsMoreHalf(true);
@@ -121,7 +126,8 @@ function Home() {
       setSpeed(1)
     setCountDownEnd(
       moment(new Date().getTime())
-        .add(providedMinute * 60, "s")
+    // Adding 2 seconds for timer delay
+        .add(providedMinute * 60+2, "s")
         .toDate()
         .getTime()
     );

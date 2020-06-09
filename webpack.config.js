@@ -1,5 +1,6 @@
 const path = require('path');
  module.exports = {
+  mode: 'development',
     // define entry file and output
    entry: './src/index.js',
    output: {
@@ -7,7 +8,7 @@ const path = require('path');
        filename: 'main.js'
    },
    devServer: {
-    // contentBase:  path.resolve('dist'),
+    contentBase:  path.resolve('dist'),
     compress: true,
     port: 9000
   },
