@@ -1,6 +1,6 @@
 const path = require('path');
  module.exports = {
-  mode: 'development',
+  mode: 'production',
     // define entry file and output
    entry: './src/index.js',
    output: {

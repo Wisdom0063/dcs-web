@@ -27,19 +27,6 @@ function Home() {
   const [is10Below, setIs10below] = useState(false);
   const [countDownEnd, setCountDownEnd] = useState();
 
-
-  function stopTimer(){
-    setCountDownInProgress(false);
-    clearInterval(x);
-    setPausedAt(null)
-     setIsPlaying(false)
-    setTimeUp(true);
-    setIs20below(false);
-    setIs10below(false);
-    setMinute(0)
-    setSeconds(0)
-  }
-
   function handleTimer() {
     var x = setInterval(() => {
       var now = new Date().getTime();
@@ -49,8 +36,15 @@ function Home() {
       let distance = actualDistance1 * speed;
       //Stop timer if distance is less than zero
       if (distance <= 0) {
-        stopTimer()
-
+        setCountDownInProgress(false);
+        clearInterval(x);
+        setPausedAt(null)
+        setIsPlaying(false)
+        setTimeUp(true);
+        setIs20below(false);
+        setIs10below(false);
+        setMinute(0)
+        setSeconds(0)
       } else {
           // Get hours, minute and seconds from now to when countdown ends
         let {hoursLeft, minutesLeft, secondsLeft } = getTimeLeft(distance)
